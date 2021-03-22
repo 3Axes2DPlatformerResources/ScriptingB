@@ -153,6 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1991921221028883418, guid: 1d5bfb0290bf3354aadc1f68e2660e5e, type: 3}
+  numberOfEnemies: 6
+  radius: 5
 --- !u!4 &160465569
 Transform:
   m_ObjectHideFlags: 0
