@@ -29,7 +29,15 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if (Vector3.Dot(other.contacts[0].normal, new Vector2(0f, 1f)) > 0.8f)
-            numberOfJumps = 0;
+        if (other.gameObject.layer == LayerMask.NameToLayer("Static")) {
+            if (Vector3.Dot(other.contacts[0].normal, new Vector2(0f, 1f)) > 0.8f)
+                numberOfJumps = 0;
+        } else if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            Debug.Log("touché");
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.layer == LayerMask.NameToLayer("FinDeNiveau"))
+            Debug.Log("Fini!");
     }
 }
