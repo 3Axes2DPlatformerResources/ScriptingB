@@ -7,11 +7,11 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private Rigidbody2D playerRigidbody;
     [SerializeField] private Animator playerAnimator;
 
-    private bool hasJumped;
+    private int numberOfJumps;
 
     // Start is called before the first frame update
     private void Start() {
-        hasJumped = false;
+        numberOfJumps = 0;
         playerAnimator.SetTrigger("StartMovement");
     }
 
@@ -22,14 +22,14 @@ public class PlayerController : MonoBehaviour {
             playerRigidbody.AddForce(speed * Input.GetAxis("Horizontal")
                                            * new Vector2(Time.deltaTime, 0f));
 
-        if (Input.GetButtonUp("Jump") && hasJumped == false) {
+        if (Input.GetButtonUp("Jump") && numberOfJumps < 2) {
             playerRigidbody.AddForce(jumpForce * new Vector2(0f, 1f));
-            hasJumped = true;
+            numberOfJumps++;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
         if (Vector3.Dot(other.contacts[0].normal, new Vector2(0f, 1f)) > 0.8f)
-            hasJumped = false;
+            numberOfJumps = 0;
     }
 }
