@@ -8,14 +8,18 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private Transform respawnPointTransform;
     [SerializeField] private TextMeshProUGUI coinCounterComponent;
+    [SerializeField] private TextMeshProUGUI livesCounterComponent;
+    [SerializeField] private GameObject gameOverGameObject;
 
     private int numberOfJumps;
     private int numberOfCoinsCollected;
+    private int numberOfLives;
 
     // Start is called before the first frame update
     private void Start() {
         numberOfJumps = 0;
         numberOfCoinsCollected = 0;
+        numberOfLives = 3;
         playerAnimator.SetTrigger("StartMovement");
     }
 
@@ -43,6 +47,10 @@ public class PlayerController : MonoBehaviour {
             if (Vector3.Dot(other.contacts[0].normal, new Vector2(0f, 1f)) > 0.8f)
                 numberOfJumps = 0;
         } else if (other.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
+            numberOfLives--;
+            if (numberOfLives <= 0)
+                gameOverGameObject.SetActive(true);
+            livesCounterComponent.text = $"Vies : {numberOfLives}";
             Respawn();
         }
     }
