@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
@@ -6,6 +7,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private Rigidbody2D playerRigidbody;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private Transform respawnPointTransform;
+    [SerializeField] private TextMeshProUGUI coinCounterComponent;
 
     private int numberOfJumps;
     private int numberOfCoinsCollected;
@@ -51,7 +53,7 @@ public class PlayerController : MonoBehaviour {
         else if (other.gameObject.layer == LayerMask.NameToLayer("Coin")) {
             numberOfCoinsCollected++;
             other.gameObject.GetComponent<CoinController>().HandleCoinCollection();
-            Debug.Log($"J'ai collecté {numberOfCoinsCollected} pièces");
+            coinCounterComponent.text = $"Pièces : {numberOfCoinsCollected}";
         }
     }
 }
