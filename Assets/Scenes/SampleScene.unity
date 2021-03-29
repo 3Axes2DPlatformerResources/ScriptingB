@@ -897,6 +897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45f190ca425cfb74f880d591e56f6898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 991487632}
 --- !u!1 &428515153
 GameObject:
   m_ObjectHideFlags: 0
@@ -2757,6 +2758,7 @@ MonoBehaviour:
   dialogueBoxGameObject: {fileID: 1898794552}
   textComponent: {fileID: 42881993}
   dialogue: {fileID: 11400000, guid: 25fb9b770d1ea3746aa93206b37693c6, type: 2}
+  buttonTextComponent: {fileID: 656598478}
 --- !u!1 &1924753244
 GameObject:
   m_ObjectHideFlags: 0

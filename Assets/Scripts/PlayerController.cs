@@ -36,8 +36,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void Respawn() {
-        Debug.Log("touché");
+    public void Respawn() {
         playerRigidbody.MovePosition(respawnPointTransform.position);
         playerRigidbody.velocity = new Vector2(0f, 0f);
     }
