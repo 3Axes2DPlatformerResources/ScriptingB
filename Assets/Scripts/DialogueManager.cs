@@ -7,6 +7,7 @@ public class DialogueManager : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI textComponent;
     [SerializeField] private Dialogue dialogue;
     [SerializeField] private TextMeshProUGUI buttonTextComponent;
+    [SerializeField] private PlayerController playerController;
 
     private int currentLineIndex;
     
@@ -21,8 +22,9 @@ public class DialogueManager : MonoBehaviour {
             textComponent.text = dialogue.DialogueLines[currentLineIndex];
             if (currentLineIndex == dialogue.DialogueLines.Count - 1)
                 buttonTextComponent.text = "Fermer";
-        }
-        else
+        } else {
             dialogueBoxGameObject.SetActive(false);
+            playerController.AllowMovement();
+        }
     }
 }
