@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -10,10 +11,14 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI coinCounterComponent;
     [SerializeField] private TextMeshProUGUI livesCounterComponent;
     [SerializeField] private GameObject gameOverGameObject;
+    [SerializeField] private ParticleSystem jumpParticleSystem;
+    [SerializeField] private AudioSource audioSource;
 
     private int numberOfJumps;
     private int numberOfCoinsCollected;
     private int numberOfLives;
+
+    private Coroutine particleCoroutine;
 
     // Start is called before the first frame update
     private void Start() {
@@ -24,16 +29,26 @@ public class PlayerController : MonoBehaviour {
     }
 
     // Update is called once per frame
-    private void Update()
-    {
+    private void Update() {
         if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.3f)
             playerRigidbody.AddForce(speed * Input.GetAxis("Horizontal")
                                            * new Vector2(Time.deltaTime, 0f));
 
         if (Input.GetButtonUp("Jump") && numberOfJumps < 2) {
             playerRigidbody.AddForce(jumpForce * new Vector2(0f, 1f));
+            particleCoroutine = StartCoroutine(DoParticleStart());
             numberOfJumps++;
         }
+    }
+
+    private IEnumerator DoParticleStart() {
+        if (particleCoroutine != null) {
+            StopCoroutine(particleCoroutine);
+            jumpParticleSystem.Play();
+        }
+
+        yield return new WaitForSeconds(5f);
+        jumpParticleSystem.Stop();
     }
 
     public void Respawn() {
@@ -50,6 +65,7 @@ public class PlayerController : MonoBehaviour {
             if (numberOfLives <= 0)
                 gameOverGameObject.SetActive(true);
             livesCounterComponent.text = $"Vies : {numberOfLives}";
+            audioSource.Play();
             Respawn();
         }
     }
