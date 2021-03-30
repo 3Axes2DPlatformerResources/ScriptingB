@@ -9,6 +9,12 @@ public class MenuController : MonoBehaviour {
             SceneManager.LoadScene("Niveau1");
     }
 
+    public void Update() {
+        if (Input.GetKeyDown(KeyCode.A)) {
+            PlayerPrefs.DeleteAll();
+        }
+    }
+
     public void HandleQuitButtonPress() {
         Application.Quit();
     }

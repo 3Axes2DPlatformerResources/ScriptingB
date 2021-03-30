@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private AudioSource audioSource;
 
     private int numberOfJumps;
-    private int numberOfCoinsCollected;
+    public int numberOfCoinsCollected { get; private set; }
     private int numberOfLives;
 
     private bool isAllowedToMove;
@@ -26,7 +26,14 @@ public class PlayerController : MonoBehaviour {
     private void Awake() {
         FindRespawnPoint();
     }
-    
+
+    public void SetNumberOfCoinsFromSave() {
+        if (PlayerPrefs.HasKey("coins")) {
+            numberOfCoinsCollected = PlayerPrefs.GetInt("coins");
+            UpdateCoinsCounter();
+        }
+    }
+
     private void Start() {
         numberOfJumps = 0;
         numberOfCoinsCollected = 0;
@@ -75,6 +82,10 @@ public class PlayerController : MonoBehaviour {
         playerRigidbody.velocity = new Vector2(0f, 0f);
     }
 
+    private void UpdateCoinsCounter() {
+        coinCounterComponent.text = $"Pièces : {numberOfCoinsCollected}";
+    }
+
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.layer == LayerMask.NameToLayer("Static")) {
             if (Vector3.Dot(other.contacts[0].normal, new Vector2(0f, 1f)) > 0.8f)
@@ -93,7 +104,7 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.layer == LayerMask.NameToLayer("Coin")) {
             numberOfCoinsCollected++;
             other.gameObject.GetComponent<CoinController>().HandleCoinCollection();
-            coinCounterComponent.text = $"Pièces : {numberOfCoinsCollected}";
+            UpdateCoinsCounter();
         }
     }
 }

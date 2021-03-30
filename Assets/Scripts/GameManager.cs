@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
     [SerializeField] private List<GameObject> gameObjectsNotToDestroy;
     [SerializeField] private PlayerController playerController;
-    public static PlayerController PlayerController;
-
-    public static GameManager MonGameManager;
+    public static PlayerController PlayerController { get; private set; }
+    public static GameManager MonGameManager { get; private set; }
 
     private void Awake() {
         MonGameManager = this;
         PlayerController = playerController;
+        playerController.SetNumberOfCoinsFromSave();
         foreach (GameObject go in gameObjectsNotToDestroy)
             DontDestroyOnLoad(go);
     }
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
     public void LoadScene(string sceneName) {
         StartCoroutine(LoadSceneRoutine(sceneName));
         PlayerPrefs.SetString("scene", sceneName);
+        PlayerPrefs.SetInt("coins", playerController.numberOfCoinsCollected);
     }
     
     private IEnumerator LoadSceneRoutine(string sceneName) {
