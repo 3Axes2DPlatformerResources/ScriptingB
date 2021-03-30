@@ -1,13 +1,14 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
     [SerializeField] private float speed = 10f;
     [SerializeField] private float jumpForce = 1000f;
     [SerializeField] private Rigidbody2D playerRigidbody;
     [SerializeField] private Animator playerAnimator;
-    [SerializeField] private Transform respawnPointTransform;
+    private Transform respawnPointTransform;
     [SerializeField] private TextMeshProUGUI coinCounterComponent;
     [SerializeField] private TextMeshProUGUI livesCounterComponent;
     [SerializeField] private GameObject gameOverGameObject;
@@ -22,13 +23,22 @@ public class PlayerController : MonoBehaviour {
 
     private Coroutine particleCoroutine;
 
-    // Start is called before the first frame update
+    private void Awake() {
+        FindRespawnPoint();
+    }
+    
     private void Start() {
         numberOfJumps = 0;
         numberOfCoinsCollected = 0;
         numberOfLives = 3;
         playerAnimator.SetTrigger("StartMovement");
         isAllowedToMove = false;
+        Respawn();
+    }
+
+    public void FindRespawnPoint() {
+        respawnPointTransform = GameObject.Find("RespawnPoint").transform;
+        Debug.Log(respawnPointTransform);
     }
 
     // Update is called once per frame
@@ -80,9 +90,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.layer == LayerMask.NameToLayer("FinDeNiveau"))
-            Debug.Log("Fini!");
-        else if (other.gameObject.layer == LayerMask.NameToLayer("Coin")) {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Coin")) {
             numberOfCoinsCollected++;
             other.gameObject.GetComponent<CoinController>().HandleCoinCollection();
             coinCounterComponent.text = $"Pièces : {numberOfCoinsCollected}";
