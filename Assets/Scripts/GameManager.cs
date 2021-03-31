@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour {
     private void Awake() {
         MonGameManager = this;
         PlayerController = playerController;
-        playerController.SetNumberOfCoinsFromSave();
+        playerController.UseSaveData();
         foreach (GameObject go in gameObjectsNotToDestroy)
             DontDestroyOnLoad(go);
     }
@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
         StartCoroutine(LoadSceneRoutine(sceneName));
         PlayerPrefs.SetString("scene", sceneName);
         PlayerPrefs.SetInt("coins", playerController.numberOfCoinsCollected);
+        PlayerPrefs.SetInt("lives", playerController.numberOfLives);
     }
     
     private IEnumerator LoadSceneRoutine(string sceneName) {

@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
 
     private int numberOfJumps;
     public int numberOfCoinsCollected { get; private set; }
-    private int numberOfLives;
+    public int numberOfLives { get; private set; }
 
     private bool isAllowedToMove;
 
@@ -27,10 +27,15 @@ public class PlayerController : MonoBehaviour {
         FindRespawnPoint();
     }
 
-    public void SetNumberOfCoinsFromSave() {
+    public void UseSaveData() {
         if (PlayerPrefs.HasKey("coins")) {
             numberOfCoinsCollected = PlayerPrefs.GetInt("coins");
             UpdateCoinsCounter();
+        }
+
+        if (PlayerPrefs.HasKey("lives")) {
+            numberOfLives = PlayerPrefs.GetInt("lives");
+            UpdateLivesCounter();
         }
     }
 
@@ -86,6 +91,10 @@ public class PlayerController : MonoBehaviour {
         coinCounterComponent.text = $"Pièces : {numberOfCoinsCollected}";
     }
 
+    private void UpdateLivesCounter() {
+        livesCounterComponent.text = $"Vies : {numberOfLives}";
+    }
+
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.layer == LayerMask.NameToLayer("Static")) {
             if (Vector3.Dot(other.contacts[0].normal, new Vector2(0f, 1f)) > 0.8f)
@@ -94,7 +103,7 @@ public class PlayerController : MonoBehaviour {
             numberOfLives--;
             if (numberOfLives <= 0)
                 gameOverGameObject.SetActive(true);
-            livesCounterComponent.text = $"Vies : {numberOfLives}";
+            UpdateLivesCounter();
             audioSource.Play();
             Respawn();
         }
