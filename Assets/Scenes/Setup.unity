@@ -226,6 +226,10 @@ PrefabInstance:
       propertyPath: playerController
       value: 
       objectReference: {fileID: 805935170}
+    - target: {fileID: 3265854855571546195, guid: eef22dab850efb3448e3a358e5193005, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eef22dab850efb3448e3a358e5193005, type: 3}
 --- !u!1 &464612523 stripped
@@ -258,6 +262,11 @@ MonoBehaviour:
 --- !u!1 &464612526 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 638643946735284527, guid: eef22dab850efb3448e3a358e5193005, type: 3}
+  m_PrefabInstance: {fileID: 464612522}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &464612527 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3265854855571546195, guid: eef22dab850efb3448e3a358e5193005, type: 3}
   m_PrefabInstance: {fileID: 464612522}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &805935169
@@ -380,6 +389,7 @@ MonoBehaviour:
   - {fileID: 1669387134}
   - {fileID: 1085472437}
   playerController: {fileID: 805935170}
+  pauseObject: {fileID: 464612527}
 --- !u!4 &1085472439
 Transform:
   m_ObjectHideFlags: 0

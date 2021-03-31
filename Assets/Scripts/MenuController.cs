@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour {
     public void HandleStartButtonPress() {
+        Debug.Log("coucou");
+        Debug.LogError("ceci est une erreur");
         SaveManager.ReadSave();
         if (SaveManager.LoadedSaveData == null)
             SceneManager.LoadScene("Niveau1");
