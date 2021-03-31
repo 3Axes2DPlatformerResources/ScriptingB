@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,9 +20,7 @@ public class GameManager : MonoBehaviour {
 
     public void LoadScene(string sceneName) {
         StartCoroutine(LoadSceneRoutine(sceneName));
-        PlayerPrefs.SetString("scene", sceneName);
-        PlayerPrefs.SetInt("coins", playerController.numberOfCoinsCollected);
-        PlayerPrefs.SetInt("lives", playerController.numberOfLives);
+        SaveManager.DoSave(sceneName, playerController.numberOfCoinsCollected, playerController.numberOfLives);
     }
     
     private IEnumerator LoadSceneRoutine(string sceneName) {

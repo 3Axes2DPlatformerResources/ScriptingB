@@ -3,15 +3,16 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour {
     public void HandleStartButtonPress() {
-        if (PlayerPrefs.HasKey("scene"))
-            SceneManager.LoadScene(PlayerPrefs.GetString("scene"));
-        else
+        SaveManager.ReadSave();
+        if (SaveManager.LoadedSaveData == null)
             SceneManager.LoadScene("Niveau1");
+        else
+            SceneManager.LoadScene(SaveManager.LoadedSaveData.sceneName);
     }
 
     public void Update() {
         if (Input.GetKeyDown(KeyCode.A)) {
-            PlayerPrefs.DeleteAll();
+            SaveManager.DeleteSave();
         }
     }
 

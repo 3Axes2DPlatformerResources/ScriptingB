@@ -28,13 +28,11 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void UseSaveData() {
-        if (PlayerPrefs.HasKey("coins")) {
-            numberOfCoinsCollected = PlayerPrefs.GetInt("coins");
+        if (SaveManager.LoadedSaveData != null) {
+            numberOfCoinsCollected = SaveManager.LoadedSaveData.numberOfCoins;
             UpdateCoinsCounter();
-        }
-
-        if (PlayerPrefs.HasKey("lives")) {
-            numberOfLives = PlayerPrefs.GetInt("lives");
+            
+            numberOfLives = SaveManager.LoadedSaveData.numberOfLives;
             UpdateLivesCounter();
         }
     }
