@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour {
     public int numberOfLives { get; private set; }
 
     private bool isAllowedToMove;
+    private bool isMoving;
 
     private Coroutine particleCoroutine;
 
@@ -38,10 +39,11 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Start() {
+        isMoving = false;
         numberOfJumps = 0;
         numberOfCoinsCollected = 0;
         numberOfLives = 3;
-        playerAnimator.SetTrigger("StartMovement");
+        playerAnimator.SetBool("IsMoving", false);
         isAllowedToMove = false;
         Respawn();
     }
@@ -54,15 +56,26 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     private void Update() {
         if (isAllowedToMove) {
-            if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.3f)
+            if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.3f) {
                 playerRigidbody.AddForce(speed * Input.GetAxis("Horizontal")
                                                * new Vector2(Time.deltaTime, 0f));
+                if (!isMoving) {
+                    playerAnimator.SetBool("IsMoving", true);
+                    isMoving = true;
+                }
+            } else if (isMoving) {
+                playerAnimator.SetBool("IsMoving", false);
+                isMoving = false;
+            }
 
             if (Input.GetButtonUp("Jump") && numberOfJumps < 2) {
                 playerRigidbody.AddForce(jumpForce * new Vector2(0f, 1f));
                 particleCoroutine = StartCoroutine(DoParticleStart());
                 numberOfJumps++;
             }
+        } else if (isMoving) {
+            playerAnimator.SetBool("IsMoving", false);
+            isMoving = false;
         }
     }
 
